@@ -10,6 +10,7 @@
             <p>Zaloguj się, aby zarządzać realizacjami</p>
         </div>
         <form class="auth-form" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <label>Login</label>
                 <input type="text" name="username" placeholder="Nazwa użytkownika" required autocomplete="username">

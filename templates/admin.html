@@ -47,7 +47,8 @@
                         <td class="td-actions">
                             <a href="{{ url_for('project_detail', project_id=project.id) }}" class="action-btn view">👁</a>
                             <form method="POST" action="{{ url_for('delete_project', project_id=project.id) }}"
-                                  onsubmit="return confirm('Na pewno usunąć projekt {{ project.title }}?')" style="display:inline">
+                                  onsubmit="return confirm('Na pewno usunac projekt {{ project.title }}?')" style="display:inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="action-btn delete">✕</button>
                             </form>
                         </td>
