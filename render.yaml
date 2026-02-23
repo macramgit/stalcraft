@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: stalcraft
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: brat
+      - key: ADMIN_PASSWORD
+        value: stal2024

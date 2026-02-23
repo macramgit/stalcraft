@@ -1,88 +1,59 @@
-# StalCraft — Strona Portfolio
+# StalCraft — Portfolio Kowalstwo Artystyczne
 
-Piękna, industrialna strona portfolio dla kowala/spawacza.
+Industrialna strona portfolio z panelem admina. Stack: Python + Flask.
 
-## Struktura projektu
-
-```
-stalcraft/
-├── app.py              # Główna aplikacja Flask
-├── data.json           # Dane projektów (auto-generowany)
-├── requirements.txt    # Zależności Python
-├── static/
-│   ├── css/style.css   # Style (industrialny design)
-│   └── uploads/        # Zdjęcia projektów (auto-tworzony)
-└── templates/
-    ├── base.html        # Szablon bazowy
-    ├── index.html       # Strona główna z galerią
-    ├── project_detail.html  # Szczegóły projektu
-    ├── login.html       # Logowanie
-    ├── admin.html       # Panel admina
-    └── add_project.html # Formularz dodawania projektu
-```
-
-## Instalacja i uruchomienie
-
-### 1. Zainstaluj wymagania
+## Szybki start lokalnie
 
 ```bash
-pip install flask werkzeug
-```
-
-### 2. Uruchom aplikację
-
-```bash
-cd stalcraft
+pip install -r requirements.txt
 python app.py
+# → http://localhost:5000
 ```
 
-Strona dostępna pod adresem: **http://localhost:5000**
+**Login admina:** `brat` / `stal2024`
 
-## Dane logowania
+---
 
-- **Login:** `brat`  
-- **Hasło:** `stal2024`
+## 🚀 Wdrożenie na Render.com (DARMOWE)
 
-> ⚠️ Zmień hasło w pliku `app.py` przed wdrożeniem na serwer!
-> Znajdź linie: `ADMIN_USERNAME` i `ADMIN_PASSWORD`
+### Krok 1 — Wrzuć kod na GitHub
 
-## Jak dodawać projekty?
-
-1. Wejdź na stronę i kliknij **Logowanie** (prawy górny róg)
-2. Zaloguj się danymi powyżej
-3. Kliknij **Panel** w nawigacji
-4. Kliknij **+ Nowy projekt**
-5. Wypełnij formularz i dodaj zdjęcia
-6. Zapisz — projekt pojawi się od razu na stronie głównej!
-
-## Wdrożenie na serwer (produkcja)
-
-### Opcja 1: VPS z Nginx + Gunicorn
+1. Załóż konto na github.com (jeśli nie masz)
+2. Kliknij "New repository" → nadaj nazwę np. `stalcraft`
+3. Wgraj wszystkie pliki:
 
 ```bash
-pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:8000 app:app
+git init
+git add .
+git commit -m "Stalcraft portfolio"
+git remote add origin https://github.com/TWOJ_LOGIN/stalcraft.git
+git push -u origin main
 ```
 
-### Opcja 2: Heroku / Railway / Render
+### Krok 2 — Utwórz konto na Render.com
 
-Dodaj `Procfile`:
-```
-web: gunicorn app:app
-```
+1. Wejdź na render.com
+2. Kliknij "Get Started for Free"
+3. Zaloguj się przez GitHub (zalecane!)
 
-### Ważne przed produkcją:
-1. Zmień `secret_key` w `app.py` na losowy, bezpieczny klucz
-2. Zmień hasło admina
-3. Rozważ użycie bazy danych (SQLite/PostgreSQL) zamiast JSON
+### Krok 3 — Deploy
 
-## Funkcje
+1. W panelu Render kliknij "New +" → "Web Service"
+2. Wybierz repozytorium `stalcraft`
+3. Render automatycznie wykryje ustawienia z render.yaml
+4. Kliknij "Create Web Service"
+5. Poczekaj ~2 minuty — gotowe!
 
-✅ Galeria realizacji z filtrowaniem po kategoriach  
-✅ Panel admina z logowaniem  
-✅ Dodawanie projektów ze zdjęciami (drag & drop)  
-✅ Usuwanie projektów  
-✅ Podgląd szczegółów projektu z galerią  
-✅ Responsywny design (mobile-friendly)  
-✅ Formularz kontaktowy w stopce  
-✅ Industrialny, ciemny design  
+Strona będzie pod: https://stalcraft.onrender.com
+
+### Krok 4 — Zmień hasło (ważne!)
+
+Render → twoja usługa → Environment:
+- ADMIN_PASSWORD → zmień na swoje hasło
+
+---
+
+## ⚠️ Uwaga o zdjęciach (darmowy plan)
+
+Render darmowy ma efemeryczny dysk — zdjęcia znikają po restarcie (~15 min nieaktywności).
+Na płatnym planie ($7/mies.) dysk jest trwały. Na start darmowy w zupełności wystarczy.

@@ -6,16 +6,16 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'stalcraft-secret-key-2024-change-in-production'
+app.secret_key = os.environ.get('SECRET_KEY', 'stalcraft-dev-key-change-in-prod')
 
 # Config
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 DATA_FILE = os.path.join(os.path.dirname(__file__), 'data.json')
 
-# Admin credentials (in production use env vars / DB)
-ADMIN_USERNAME = 'brat'
-ADMIN_PASSWORD = 'stal2024'
+# Admin credentials — ustaw w Render jako Environment Variables
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'brat')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'stal2024')
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
