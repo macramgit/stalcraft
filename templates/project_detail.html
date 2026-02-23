@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}{{ project.title }} — StalCraft{% endblock %}
+
+{% block content %}
+<section class="detail-section">
+    <div class="detail-inner">
+        <div class="breadcrumb">
+            <a href="{{ url_for('index') }}">← Realizacje</a>
+            <span>/ {{ project.category }}</span>
+        </div>
+
+        <div class="detail-header">
+            <div class="detail-meta-top">
+                <span class="detail-category">{{ project.category }}</span>
+                {% if project.year %}<span class="detail-year">{{ project.year }}</span>{% endif %}
+            </div>
+            <h1 class="detail-title">{{ project.title }}</h1>
+        </div>
+
+        <!-- Gallery -->
+        {% if project.images %}
+        <div class="gallery">
+            <div class="gallery-main">
+                <img src="{{ url_for('static', filename='uploads/' + project.images[0]) }}" 
+                     id="mainImg" alt="{{ project.title }}">
+            </div>
+            {% if project.images|length > 1 %}
+            <div class="gallery-thumbs">
+                {% for img in project.images %}
+                <div class="thumb {% if loop.first %}active{% endif %}" 
+                     onclick="changeImg(this, '{{ url_for('static', filename='uploads/' + img) }}')">
+                    <img src="{{ url_for('static', filename='uploads/' + img) }}" alt="">
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="detail-content">
+            <div class="detail-desc">
+                <h3>O projekcie</h3>
+                <p>{{ project.description }}</p>
+            </div>
+            <div class="detail-info">
+                <h3>Szczegóły</h3>
+                <div class="info-list">
+                    <div class="info-row">
+                        <span class="info-label">Kategoria</span>
+                        <span class="info-val">{{ project.category }}</span>
+                    </div>
+                    {% if project.location %}
+                    <div class="info-row">
+                        <span class="info-label">Lokalizacja</span>
+                        <span class="info-val">{{ project.location }}</span>
+                    </div>
+                    {% endif %}
+                    {% if project.year %}
+                    <div class="info-row">
+                        <span class="info-label">Rok realizacji</span>
+                        <span class="info-val">{{ project.year }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="info-row">
+                        <span class="info-label">Zdjęcia</span>
+                        <span class="info-val">{{ project.images|length }}</span>
+                    </div>
+                </div>
+                <a href="#kontakt" class="btn-primary" style="margin-top:2rem;display:inline-block">
+                    Zamów podobny projekt
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function changeImg(thumb, src) {
+    document.getElementById('mainImg').src = src;
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Panel admina — StalCraft{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="admin-inner">
+        <div class="admin-header">
+            <h1>Panel <span>Admina</span></h1>
+            <a href="{{ url_for('add_project') }}" class="btn-primary">+ Nowy projekt</a>
+        </div>
+
+        <div class="admin-stats">
+            <div class="astat">
+                <span class="astat-num">{{ projects|length }}</span>
+                <span class="astat-label">Projektów</span>
+            </div>
+        </div>
+
+        {% if projects %}
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Zdjęcie</th>
+                        <th>Tytuł</th>
+                        <th>Kategoria</th>
+                        <th>Lokalizacja</th>
+                        <th>Rok</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <td>
+                            {% if project.images %}
+                                <img src="{{ url_for('static', filename='uploads/' + project.images[0]) }}" 
+                                     class="admin-thumb" alt="">
+                            {% else %}
+                                <div class="admin-thumb-empty">⬡</div>
+                            {% endif %}
+                        </td>
+                        <td class="td-title">{{ project.title }}</td>
+                        <td><span class="badge">{{ project.category }}</span></td>
+                        <td>{{ project.location or '—' }}</td>
+                        <td>{{ project.year or '—' }}</td>
+                        <td class="td-actions">
+                            <a href="{{ url_for('project_detail', project_id=project.id) }}" class="action-btn view">👁</a>
+                            <form method="POST" action="{{ url_for('delete_project', project_id=project.id) }}"
+                                  onsubmit="return confirm('Na pewno usunąć projekt {{ project.title }}?')" style="display:inline">
+                                <button type="submit" class="action-btn delete">✕</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <span class="empty-icon">⬡</span>
+            <h3>Brak projektów</h3>
+            <p>Dodaj swoją pierwszą realizację!</p>
+            <a href="{{ url_for('add_project') }}" class="btn-primary">+ Dodaj projekt</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

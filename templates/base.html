@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StalCraft — Kowalstwo Artystyczne{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Barlow+Condensed:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="noise-overlay"></div>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="{{ url_for('index') }}" class="logo">
+                <span class="logo-icon">⬡</span>
+                <div class="logo-text">
+                    <span class="logo-main">STALCRAFT</span>
+                    <span class="logo-sub">Kowalstwo Artystyczne</span>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <a href="{{ url_for('index') }}" class="nav-link">Realizacje</a>
+                <a href="{{ url_for('index') }}#kontakt" class="nav-link">Kontakt</a>
+                {% if is_admin %}
+                    <a href="{{ url_for('admin') }}" class="nav-link nav-admin">Panel</a>
+                    <a href="{{ url_for('logout') }}" class="nav-link nav-logout">Wyloguj</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-link nav-login">Logowanie</a>
+                {% endif %}
+            </nav>
+            <button class="burger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="{{ url_for('index') }}">Realizacje</a>
+        <a href="#kontakt">Kontakt</a>
+        {% if is_admin %}
+            <a href="{{ url_for('admin') }}">Panel admina</a>
+            <a href="{{ url_for('logout') }}">Wyloguj</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Logowanie</a>
+        {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer" id="kontakt">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="logo-main">STALCRAFT</span>
+                <p>Każda realizacja to historia.<br>Stal, precyzja, pasja.</p>
+            </div>
+            <div class="footer-contact">
+                <h4>Kontakt</h4>
+                <p>📞 +48 000 000 000</p>
+                <p>✉ kontakt@stalcraft.pl</p>
+                <p>📍 Polska</p>
+            </div>
+            <div class="footer-categories">
+                <h4>Usługi</h4>
+                <p>Schody stalowe</p>
+                <p>Balustrady</p>
+                <p>Bramy i ogrodzenia</p>
+                <p>Meble industrialne</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 StalCraft — Wszelkie prawa zastrzeżone</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('open');
+        }
+    </script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

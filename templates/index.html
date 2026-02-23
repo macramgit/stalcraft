@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block title %}StalCraft — Realizacje{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg">
+        <div class="hero-grid"></div>
+    </div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Rzemiosło na miarę marzeń</p>
+        <h1 class="hero-title">
+            <span class="line-reveal">STAL</span>
+            <span class="line-reveal delay-1">W RĘKACH</span>
+            <span class="line-reveal delay-2">MISTRZA</span>
+        </h1>
+        <p class="hero-desc">Schody, balustrady, bramy i ogrodzenia — każda realizacja wykonana z pasją i precyzją.</p>
+        <a href="#realizacje" class="hero-btn">Zobacz realizacje</a>
+    </div>
+    <div class="hero-scroll">↓ SCROLL</div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+    <div class="stat">
+        <span class="stat-num">{{ projects|length }}</span>
+        <span class="stat-label">Realizacji</span>
+    </div>
+    <div class="stat-divider">✦</div>
+    <div class="stat">
+        <span class="stat-num">10+</span>
+        <span class="stat-label">Lat doświadczenia</span>
+    </div>
+    <div class="stat-divider">✦</div>
+    <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Zadowolonych klientów</span>
+    </div>
+</section>
+
+<!-- FILTER -->
+<section class="filter-section" id="realizacje">
+    <div class="filter-inner">
+        <h2 class="section-title">REALIZACJE</h2>
+        <div class="filter-tabs">
+            <a href="{{ url_for('index') }}" class="filter-tab {% if not active_category %}active{% endif %}">Wszystkie</a>
+            {% for cat in categories %}
+                <a href="{{ url_for('index', category=cat) }}" class="filter-tab {% if active_category == cat %}active{% endif %}">{{ cat }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS GRID -->
+<section class="projects-section">
+    {% if projects %}
+    <div class="projects-grid">
+        {% for project in projects %}
+        <article class="project-card" onclick="window.location='{{ url_for('project_detail', project_id=project.id) }}'">
+            <div class="card-image">
+                {% if project.images %}
+                    <img src="{{ url_for('static', filename='uploads/' + project.images[0]) }}" 
+                         alt="{{ project.title }}" loading="lazy">
+                {% else %}
+                    <div class="card-placeholder">
+                        <span>⬡</span>
+                        <p>Brak zdjęcia</p>
+                    </div>
+                {% endif %}
+                <div class="card-overlay">
+                    <span class="card-category">{{ project.category }}</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">{{ project.title }}</h3>
+                <p class="card-desc">{{ project.description[:100] }}{% if project.description|length > 100 %}...{% endif %}</p>
+                <div class="card-meta">
+                    {% if project.location %}<span>📍 {{ project.location }}</span>{% endif %}
+                    {% if project.year %}<span>📅 {{ project.year }}</span>{% endif %}
+                </div>
+                <span class="card-link">Zobacz więcej →</span>
+            </div>
+            {% if is_admin %}
+            <form method="POST" action="{{ url_for('delete_project', project_id=project.id) }}" 
+                  onsubmit="return confirm('Usunąć projekt?')"
+                  onclick="event.stopPropagation()">
+                <button type="submit" class="card-delete">✕</button>
+            </form>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <span class="empty-icon">⬡</span>
+        <h3>Brak realizacji</h3>
+        {% if is_admin %}
+            <p>Dodaj swój pierwszy projekt!</p>
+            <a href="{{ url_for('add_project') }}" class="btn-primary">+ Dodaj projekt</a>
+        {% else %}
+            <p>Wróć wkrótce, aby zobaczyć nasze realizacje.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <p class="cta-eyebrow">Masz projekt?</p>
+        <h2>Porozmawiajmy<br><em>o Twoich potrzebach</em></h2>
+        <a href="#kontakt" class="hero-btn">Skontaktuj się</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Staggered card animation on scroll
+    const cards = document.querySelectorAll('.project-card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, i * 80);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    cards.forEach(card => observer.observe(card));
+</script>
+{% endblock %}
