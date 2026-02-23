@@ -8,6 +8,13 @@ import secrets
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 
+# Lokalne developerskie .env (ignorowane na produkcji)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv nie jest wymagane na produkcji
+
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', secrets.token_hex(32))
 
@@ -22,8 +29,11 @@ SESSION_LIFETIME = timedelta(hours=2)
 MAX_LOGIN_ATTEMPTS = 5
 LOCKOUT_MINUTES = 15
 
-ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'brat')
-_RAW_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'stal2024')
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
+_RAW_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+
+if not ADMIN_USERNAME or not _RAW_PASSWORD:
+    raise RuntimeError("Ustaw zmienne ADMIN_USERNAME i ADMIN_PASSWORD w środowisku!")
 
 def _hash_password(password: str) -> str:
     return hmac.new(

@@ -8,6 +8,6 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: ADMIN_USERNAME
-        value: brat
+        sync: false
       - key: ADMIN_PASSWORD
-        value: stal2024
+        sync: false
