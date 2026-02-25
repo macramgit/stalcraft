@@ -82,11 +82,19 @@ def save_image(file) -> str:
     """Zapisuje zdjecie - do R2 lub lokalnie. Zwraca sciezke/URL do zapisania w data.json."""
     filename = str(uuid.uuid4()) + '_' + secure_filename(file.filename)
     if USE_R2:
-        url = upload_to_r2(file, filename)
-        return url  # pelny URL np. https://pub.r2.dev/xyz.jpg
+        try:
+            url = upload_to_r2(file, filename)
+            print(f"[R2] Upload OK: {filename}", flush=True)
+            return url
+        except Exception as e:
+            print(f"[R2] Upload ERROR: {e}", flush=True)
+            # fallback lokalny
+            file.seek(0)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            return filename
     else:
         file.save(os.path.join(UPLOAD_FOLDER, filename))
-        return filename  # lokalna nazwa pliku
+        return filename
 
 def delete_image(image_ref):
     """Usuwa zdjecie z R2 lub lokalnie."""
@@ -217,9 +225,10 @@ def save_data(data):
                 Body=body,
                 ContentType='application/json'
             )
+            print(f"[R2] data.json saved OK ({len(data['projects'])} projektow)", flush=True)
             return
-        except Exception:
-            pass  # fallback do lokalnego pliku
+        except Exception as e:
+            print(f"[R2] data.json save ERROR: {e}", flush=True)
 
     # Lokalny fallback
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
