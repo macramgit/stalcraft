@@ -178,13 +178,50 @@ def check_session_expiry():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# ─── Data helpers ─────────────────────────────────────────
+DEFAULT_DATA = {
+    'projects': [],
+    'categories': ['Schody', 'Balustrady', 'Bramy', 'Ogrodzenia', 'Zadaszenia tarasow', 'Pergole i mala architektura', 'Meble stalowe', 'Inne']
+}
+DATA_R2_KEY = 'data.json'
+
 def load_data():
+    # Najpierw próbuj z R2
+    if USE_R2:
+        try:
+            client = get_r2_client()
+            obj = client.get_object(Bucket=R2_BUCKET_NAME, Key=DATA_R2_KEY)
+            return json.loads(obj['Body'].read().decode('utf-8'))
+        except Exception as e:
+            # Plik nie istnieje jeszcze w R2 lub inny błąd - zwróć domyślne dane
+            if '404' in str(e) or 'NoSuchKey' in str(e):
+                return dict(DEFAULT_DATA)
+            # Inny błąd - spróbuj lokalnie
+            pass
+
+    # Lokalny fallback
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
-    return {'projects': [], 'categories': ['Schody', 'Balustrady', 'Bramy', 'Ogrodzenia', 'Zadaszenia tarasow', 'Pergole i mala architektura', 'Meble stalowe', 'Inne']}
+    return dict(DEFAULT_DATA)
 
 def save_data(data):
+    # Zapisz do R2
+    if USE_R2:
+        try:
+            client = get_r2_client()
+            body = json.dumps(data, ensure_ascii=False, indent=2).encode('utf-8')
+            client.put_object(
+                Bucket=R2_BUCKET_NAME,
+                Key=DATA_R2_KEY,
+                Body=body,
+                ContentType='application/json'
+            )
+            return
+        except Exception:
+            pass  # fallback do lokalnego pliku
+
+    # Lokalny fallback
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
