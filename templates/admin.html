@@ -34,7 +34,7 @@
                     <tr>
                         <td>
                             {% if project.images %}
-                                <img src="{{ url_for('static', filename='uploads/' + project.images[0]) }}" 
+                                <img src="{{ image_url(project.images[0]) }}" 
                                      class="admin-thumb" alt="">
                             {% else %}
                                 <div class="admin-thumb-empty">⬡</div>

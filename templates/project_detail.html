@@ -21,15 +21,15 @@
         {% if project.images %}
         <div class="gallery">
             <div class="gallery-main">
-                <img src="{{ url_for('static', filename='uploads/' + project.images[0]) }}" 
+                <img src="{{ image_url(project.images[0]) }}" 
                      id="mainImg" alt="{{ project.title }}">
             </div>
             {% if project.images|length > 1 %}
             <div class="gallery-thumbs">
                 {% for img in project.images %}
                 <div class="thumb {% if loop.first %}active{% endif %}" 
-                     onclick="changeImg(this, '{{ url_for('static', filename='uploads/' + img) }}')">
-                    <img src="{{ url_for('static', filename='uploads/' + img) }}" alt="">
+                     onclick="changeImg(this, '{{ image_url(img) }}')">
+                    <img src="{{ image_url(img) }}" alt="">
                 </div>
                 {% endfor %}
             </div>

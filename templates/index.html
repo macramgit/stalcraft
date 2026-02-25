@@ -54,7 +54,7 @@
         <article class="project-card" onclick="window.location='{{ url_for('project_detail', project_id=project.id) }}'">
             <div class="card-image">
                 {% if project.images %}
-                    <img src="{{ url_for('static', filename='uploads/' + project.images[0]) }}" 
+                    <img src="{{ image_url(project.images[0]) }}" 
                          alt="{{ project.title }}" loading="lazy">
                 {% else %}
                     <div class="card-placeholder">
@@ -103,8 +103,8 @@
 <!-- CTA -->
 <section class="cta-section">
     <div class="cta-inner">
-        <p class="cta-eyebrow">Masz projekt lub wizję?</p>
-        <h2>Porozmawiajmy<br><em>o Twoich potrzebach</em></h2>
+        <p class="cta-eyebrow">Porozmawiajmy o Twoich potrzebach</p>
+        <h2>MASZ PROJEKT<br>LUB <em>WIZJĘ?</em></h2>
         <a href="#kontakt" class="hero-btn">Skontaktuj się</a>
     </div>
 </section>
