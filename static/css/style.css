@@ -1,5 +1,5 @@
 /* =============================================
-   STALCRAFT — Industrial Steel Aesthetic
+   BALUXSTAL — Industrial Steel Aesthetic
    Dark, bold, raw industrial — like forged steel
    ============================================= */
 
@@ -555,4 +555,89 @@ body {
     .footer-inner { grid-template-columns: 1fr; }
     .stats-bar { gap: 1.5rem; }
     .hero-title { font-size: clamp(4rem, 18vw, 6rem); }
+}
+
+/* ===== O NAS ===== */
+.onas-hero {
+    position: relative; height: 40vh; min-height: 300px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; padding-top: 72px;
+}
+.onas-hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--black) 0%, var(--dark2) 100%);
+}
+.onas-hero-content { position: relative; z-index: 1; text-align: center; }
+.onas-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 15vw, 10rem);
+    line-height: 0.9; color: var(--white);
+    display: flex; flex-direction: column;
+}
+.onas-section { padding: 5rem 2rem; }
+.onas-inner { max-width: 1100px; margin: 0 auto; }
+
+.onas-lead {
+    display: grid; grid-template-columns: auto 1fr; gap: 4rem;
+    align-items: start; margin-bottom: 4rem;
+}
+.onas-year-badge {
+    display: flex; flex-direction: column; align-items: center;
+    background: var(--dark2); border: 1px solid var(--border-strong);
+    padding: 2rem 2.5rem; text-align: center; min-width: 160px;
+}
+.badge-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem; color: var(--accent); line-height: 1;
+}
+.badge-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--warm-gray); margin-top: 0.4rem;
+}
+.onas-intro {
+    color: var(--light-gray); font-size: 1.1rem; line-height: 1.9;
+    margin-bottom: 1.5rem;
+}
+.onas-divider {
+    text-align: center; color: var(--accent); font-size: 1.5rem;
+    margin: 3rem 0; letter-spacing: 1rem;
+}
+
+.onas-values {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; background: var(--border); margin-bottom: 5rem;
+}
+.value-card {
+    background: var(--dark2); padding: 2.5rem 2rem;
+    transition: background 0.2s;
+}
+.value-card:hover { background: var(--dark3); }
+.value-icon {
+    display: block; font-size: 1.8rem; color: var(--accent);
+    margin-bottom: 1rem;
+}
+.value-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--white); margin-bottom: 0.75rem;
+}
+.value-card p { color: var(--warm-gray); font-size: 0.95rem; line-height: 1.7; }
+
+.onas-cta {
+    text-align: center; padding: 5rem 2rem;
+    border-top: 1px solid var(--border);
+}
+.onas-cta h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: var(--white); margin-bottom: 2rem; line-height: 1;
+}
+.onas-cta em { color: var(--accent); font-style: normal; }
+.onas-cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+    .onas-lead { grid-template-columns: 1fr; gap: 2rem; }
+    .onas-year-badge { flex-direction: row; gap: 1rem; min-width: unset; width: fit-content; }
+    .onas-values { grid-template-columns: 1fr; }
 }

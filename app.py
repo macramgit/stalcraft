@@ -121,6 +121,10 @@ def is_logged_in():
     return session.get('logged_in', False)
 
 # ─── Routes ───────────────────────────────────────────────
+@app.route('/o-nas')
+def o_nas():
+    return render_template('o_nas.html', is_admin=is_logged_in())
+
 @app.route('/')
 def index():
     data = load_data()

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}StalCraft — Kowalstwo Artystyczne{% endblock %}</title>
+    <title>{% block title %}BaluxStal — Konstrukcje stalowe i kowalstwo artystyczne{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Barlow+Condensed:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -17,12 +17,13 @@
             <a href="{{ url_for('index') }}" class="logo">
                 <span class="logo-icon">⬡</span>
                 <div class="logo-text">
-                    <span class="logo-main">STALCRAFT</span>
-                    <span class="logo-sub">Kowalstwo Artystyczne</span>
+                    <span class="logo-main">BALUXSTAL</span>
+                    <span class="logo-sub">Konstrukcje stalowe i kowalstwo artystyczne</span>
                 </div>
             </a>
             <nav class="main-nav">
                 <a href="{{ url_for('index') }}" class="nav-link">Realizacje</a>
+                <a href="{{ url_for('o_nas') }}" class="nav-link">O nas</a>
                 <a href="{{ url_for('index') }}#kontakt" class="nav-link">Kontakt</a>
                 {% if is_admin %}
                     <a href="{{ url_for('admin') }}" class="nav-link nav-admin">Panel</a>
@@ -39,6 +40,7 @@
 
     <div class="mobile-menu" id="mobileMenu">
         <a href="{{ url_for('index') }}">Realizacje</a>
+        <a href="{{ url_for('o_nas') }}">O nas</a>
         <a href="#kontakt">Kontakt</a>
         {% if is_admin %}
             <a href="{{ url_for('admin') }}">Panel admina</a>
@@ -63,13 +65,13 @@
     <footer class="site-footer" id="kontakt">
         <div class="footer-inner">
             <div class="footer-brand">
-                <span class="logo-main">STALCRAFT</span>
+                <span class="logo-main">BALUXSTAL</span>
                 <p>Każda realizacja to historia.<br>Stal, precyzja, pasja.</p>
             </div>
             <div class="footer-contact">
                 <h4>Kontakt</h4>
                 <p>📞 +48 000 000 000</p>
-                <p>✉ kontakt@stalcraft.pl</p>
+                <p>✉ kontakt@baluxstal.pl</p>
                 <p>📍 Polska</p>
             </div>
             <div class="footer-categories">
@@ -83,7 +85,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2024 StalCraft — Wszelkie prawa zastrzeżone</p>
+            <p>© 2024 BaluxStal — Wszelkie prawa zastrzeżone</p>
         </div>
     </footer>
 

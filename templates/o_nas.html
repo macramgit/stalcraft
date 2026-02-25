@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}O nas — BaluxStal{% endblock %}
+
+{% block content %}
+<section class="onas-hero">
+    <div class="onas-hero-bg">
+        <div class="hero-grid"></div>
+    </div>
+    <div class="onas-hero-content">
+        <p class="hero-eyebrow">Poznaj nas</p>
+        <h1 class="onas-title">
+            <span class="line-reveal">O</span>
+            <span class="line-reveal delay-1">NAS</span>
+        </h1>
+    </div>
+</section>
+
+<section class="onas-section">
+    <div class="onas-inner">
+
+        <div class="onas-lead">
+            <div class="onas-year-badge">
+                <span class="badge-num">2018</span>
+                <span class="badge-label">Rok założenia</span>
+            </div>
+            <div class="onas-text">
+                <p class="onas-intro">
+                    Produkcją i montażem konstrukcji zajmujemy się od 2018 roku. Nasza oferta obejmuje szeroki wachlarz usług, począwszy od produkcji balustrad i schodów, po zaawansowane konstrukcje stalowe, zadaszenia hal i garaży, bramy i ogrodzenia, pergole ogrodowe, małą architekturę, obróbkę metali, tworzyw sztucznych oraz drewna.
+                </p>
+                <p class="onas-intro">
+                    Dążymy do dostarczania rozwiązań, które nie tylko spełniają, ale i przewyższają oczekiwania naszych klientów. Dzięki naszemu doświadczeniu i zaangażowaniu, jesteśmy w stanie realizować projekty o różnym stopniu skomplikowania, oferując kompleksową obsługę — od koncepcji, po finalną produkcję i profesjonalny montaż.
+                </p>
+            </div>
+        </div>
+
+        <div class="onas-divider">
+            <span>✦</span>
+        </div>
+
+        <div class="onas-values">
+            <div class="value-card">
+                <span class="value-icon">⬡</span>
+                <h3>Doświadczenie</h3>
+                <p>Ponad 8 lat na rynku. Każdy projekt to nowe wyzwanie, któremu stawiamy czoła z pełnym zaangażowaniem.</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">⬡</span>
+                <h3>Kompleksowość</h3>
+                <p>Od projektu do montażu — prowadzimy klienta przez cały proces, zapewniając spójność i najwyższą jakość na każdym etapie.</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">⬡</span>
+                <h3>Precyzja</h3>
+                <p>Każdy detal ma znaczenie. Pracujemy z metalem, tworzywami sztucznymi i drewnem z równą starannością i dokładnością.</p>
+            </div>
+        </div>
+
+        <div class="onas-cta">
+            <p class="cta-eyebrow">Masz projekt lub wizję?</p>
+            <h2>Porozmawiajmy<br><em>o Twoich potrzebach</em></h2>
+            <div class="onas-cta-btns">
+                <a href="{{ url_for('index') }}#kontakt" class="hero-btn">Skontaktuj się</a>
+                <a href="{{ url_for('index') }}" class="btn-secondary">Zobacz realizacje</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
