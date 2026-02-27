@@ -20,15 +20,23 @@
         <!-- Gallery -->
         {% if project.images %}
         <div class="gallery">
-            <div class="gallery-main">
+            <div class="gallery-main" id="galleryMain">
                 <img src="{{ image_url(project.images[0]) }}" 
                      id="mainImg" alt="{{ project.title }}">
+                {% if project.images|length > 1 %}
+                <button class="gallery-arrow gallery-prev" onclick="prevImg()">&#8249;</button>
+                <button class="gallery-arrow gallery-next" onclick="nextImg()">&#8250;</button>
+                <div class="gallery-counter">
+                    <span id="currentIdx">1</span> / {{ project.images|length }}
+                </div>
+                {% endif %}
             </div>
             {% if project.images|length > 1 %}
             <div class="gallery-thumbs">
                 {% for img in project.images %}
                 <div class="thumb {% if loop.first %}active{% endif %}" 
-                     onclick="changeImg(this, '{{ image_url(img) }}')">
+                     onclick="goToImg({{ loop.index0 }})"
+                     data-src="{{ image_url(img) }}">
                     <img src="{{ image_url(img) }}" alt="">
                 </div>
                 {% endfor %}
@@ -77,10 +85,52 @@
 
 {% block extra_scripts %}
 <script>
-function changeImg(thumb, src) {
-    document.getElementById('mainImg').src = src;
-    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
-}
+    const thumbs = document.querySelectorAll('.thumb');
+    const images = Array.from(thumbs).map(t => t.dataset.src);
+    let current = 0;
+
+    function goToImg(idx) {
+        current = idx;
+        document.getElementById('mainImg').src = images[current];
+        document.getElementById('currentIdx').textContent = current + 1;
+        thumbs.forEach((t, i) => t.classList.toggle('active', i === current));
+        thumbs[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    function nextImg() {
+        goToImg((current + 1) % images.length);
+    }
+
+    function prevImg() {
+        goToImg((current - 1 + images.length) % images.length);
+    }
+
+    // Swipe touch support
+    const mainEl = document.getElementById('galleryMain');
+    if (mainEl) {
+        let startX = 0;
+        let startY = 0;
+
+        mainEl.addEventListener('touchstart', e => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }, { passive: true });
+
+        mainEl.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - startX;
+            const dy = e.changedTouches[0].clientY - startY;
+            // Tylko poziomy swipe (dx > dy)
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+                if (dx < 0) nextImg();
+                else prevImg();
+            }
+        }, { passive: true });
+    }
+
+    // Klawiatura (strzałki)
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') nextImg();
+        if (e.key === 'ArrowLeft') prevImg();
+    });
 </script>
 {% endblock %}
