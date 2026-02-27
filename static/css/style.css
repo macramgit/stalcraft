@@ -651,3 +651,28 @@ body {
     .onas-year-badge { flex-direction: row; gap: 1rem; min-width: unset; width: fit-content; }
     .onas-values { grid-template-columns: 1fr; }
 }
+
+/* ===== PAGINACJA ===== */
+.hidden-project {
+    display: none;
+}
+.load-more-wrap {
+    max-width: 1400px; margin: 0 auto;
+    padding: 3rem 2rem; text-align: center;
+    border-top: 1px solid var(--border);
+}
+.btn-load-more {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--off-white); background: transparent;
+    padding: 1rem 3rem; border: 1px solid var(--border-strong);
+    cursor: pointer; transition: all 0.25s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-load-more:hover {
+    border-color: var(--accent); color: var(--accent);
+    background: rgba(200,134,42,0.05);
+}
+.btn-load-more span {
+    color: var(--warm-gray); font-size: 0.8em;
+}

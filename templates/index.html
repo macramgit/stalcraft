@@ -38,9 +38,9 @@
     <div class="filter-inner">
         <h2 class="section-title">REALIZACJE</h2>
         <div class="filter-tabs">
-            <a href="{{ url_for('index') }}" class="filter-tab {% if not active_category %}active{% endif %}">Wszystkie</a>
+            <a href="{{ url_for('index') }}#realizacje" class="filter-tab {% if not active_category %}active{% endif %}">Wszystkie</a>
             {% for cat in categories %}
-                <a href="{{ url_for('index', category=cat) }}" class="filter-tab {% if active_category == cat %}active{% endif %}">{{ cat }}</a>
+                <a href="{{ url_for('index', category=cat) }}#realizacje" class="filter-tab {% if active_category == cat %}active{% endif %}">{{ cat }}</a>
             {% endfor %}
         </div>
     </div>
@@ -49,9 +49,10 @@
 <!-- PROJECTS GRID -->
 <section class="projects-section">
     {% if projects %}
-    <div class="projects-grid">
+    <div class="projects-grid" id="projectsGrid">
         {% for project in projects %}
-        <article class="project-card" onclick="window.location='{{ url_for('project_detail', project_id=project.id) }}'">
+        <article class="project-card {% if loop.index > 12 %}hidden-project{% endif %}" 
+                 onclick="window.location='{{ url_for('project_detail', project_id=project.id) }}'">
             <div class="card-image">
                 {% if project.images %}
                     <img src="{{ image_url(project.images[0]) }}" 
@@ -86,6 +87,15 @@
         </article>
         {% endfor %}
     </div>
+
+    {% if projects|length > 12 %}
+    <div class="load-more-wrap" id="loadMoreWrap">
+        <button class="btn-load-more" id="loadMoreBtn" onclick="loadMore()">
+            Zobacz więcej <span id="loadMoreCount">({{ projects|length - 12 }} pozostałych)</span>
+        </button>
+    </div>
+    {% endif %}
+
     {% else %}
     <div class="empty-state">
         <span class="empty-icon">⬡</span>
@@ -112,18 +122,44 @@
 
 {% block extra_scripts %}
 <script>
-    // Staggered card animation on scroll
-    const cards = document.querySelectorAll('.project-card');
+    // Scroll do realizacji jeśli wybrano kategorię
+    {% if active_category %}
+    window.addEventListener('load', () => {
+        const el = document.getElementById('realizacje');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    {% endif %}
+
+    // Animacja kart
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
             if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, i * 80);
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
-    cards.forEach(card => observer.observe(card));
+    document.querySelectorAll('.project-card:not(.hidden-project)').forEach(c => observer.observe(c));
+
+    // Paginacja - pokaż kolejne 12
+    let shown = 12;
+    function loadMore() {
+        const hidden = document.querySelectorAll('.hidden-project');
+        const toShow = Array.from(hidden).slice(0, 12);
+        toShow.forEach((card, i) => {
+            setTimeout(() => {
+                card.classList.remove('hidden-project');
+                card.classList.add('visible');
+                observer.observe(card);
+            }, i * 60);
+        });
+        shown += toShow.length;
+        const remaining = document.querySelectorAll('.hidden-project').length;
+        if (remaining === 0) {
+            document.getElementById('loadMoreWrap').style.display = 'none';
+        } else {
+            document.getElementById('loadMoreCount').textContent = `(${remaining} pozostałych)`;
+        }
+    }
 </script>
 {% endblock %}
