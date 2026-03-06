@@ -1,0 +1,13 @@
+# Generate favicon as SVG then convert to ICO-compatible PNG
+svg = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" fill="#0a0a09"/>
+  <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" 
+           fill="none" stroke="#c8862a" stroke-width="2.5"/>
+  <polygon points="16,6 25,11 25,21 16,26 7,21 7,11" 
+           fill="#c8862a" opacity="0.15"/>
+</svg>'''
+
+with open('/home/claude/stalcraft/static/favicon.svg', 'w') as f:
+    f.write(svg)
+
+print("SVG favicon created")
